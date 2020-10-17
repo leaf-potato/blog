@@ -1,4 +1,4 @@
-## Linux上线程ID以及pthread_self()和gettid()函数的使用与对比
+## Linux中线程ID获取及使用
 
 #### 使用背景
 
@@ -52,6 +52,7 @@ int main(int argc,char* argv[]){
 }
 ```
 **运行截图**
+
  ![image-20201007144211245](.assets/image-20201007144211245.png)
 
 #### `gettid()`使用
