@@ -28,20 +28,20 @@ struct sdshdr {
 
 #### 内存预分配和惰性释放
 
-**内存预分配**
+##### 内存预分配
 
 若在`sds`中添加新的字符串，当前内存空间不够时，`sds`会自动分配新的内存空间，分配大小满足一下策略：
 
 - 若添加完新的字符串后，其长度（`len`属性）小于1024个字节时，其会分配`2*len`大小的内存空间（`free`属性和`len`属性的值相同）
 - 若添加完新的字符串后，其长度（`len`属性）大于等于1024个字节时，其会分配`len + 1MB`大小的内存空间（`free`属性的值为1024）
 
-**内存惰性释放**
+##### 内存惰性释放
 
 当删除`sds`中的字符时，其所占用的内存空间并未真正释放给操作系统，调整`len`和`free`属性的值，用`free`属性记录这些空间的内存空间，以备将来使用。
 
 #### `sds` API
 
-**创建`sds`相关API**
+##### 创建`sds`相关API
 
 ```c
 //创建一个长度为initlen的sds
@@ -58,14 +58,14 @@ sds sdsempty(void);
 sds sdsfromlonglong(long long value);
 ```
 
-**销毁sds相关API**
+##### 销毁sds相关API
 
 ```c
 //释放一个给定的sds
 void sdsfree(sds s);
 ```
 
-**`sds`内存相关API**
+##### `sds`内存相关API
 
 ```c
 //内存预分配，扩展sds的长度，确保sds的free空间大于addlen
@@ -81,7 +81,7 @@ sds sdsRemoveFreeSpace(sds s);
 size_t sdsAllocSize(sds s)
 ```
 
-**`sds`拼接相关API**
+##### `sds`拼接相关API
 
 ```c
 //将t指向的长度为len的字符串追加到sds中
@@ -93,7 +93,7 @@ sds sdscat(sds s, const char *t);
 sds sdscatsds(sds s, const sds t);
 ```
 
-**`sds`复制相关API**
+##### `sds`复制相关API
 
 ```c
 //将t指向的长度为len的字符串复制到sds中，覆盖原来的sds
@@ -102,7 +102,7 @@ sds sdscpylen(sds s, const char *t, size_t len);
 sds sdscpy(sds s, const char *t)
 ```
 
-**字符串和整数转换相关API**
+##### 字符串和整数转换相关API
 
 ```c
 //将整数value转换为字符串并存储到s指向的内存空间中
