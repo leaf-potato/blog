@@ -1,6 +1,6 @@
-## `SDS`设计与实现
+## `sds`设计与实现
 
-#### `SDS`的定义
+#### `sds`的定义
 
 ```c
 typedef char *sds;//指向buf地址
@@ -14,7 +14,7 @@ struct sdshdr {
 - `sds`始终指向`struct sdshdr`中的`buf`数组，在使用过程中声明`sds`类型的变量即可，`struct sdshdr`对于用户来说是透明的，`sds`可以通过指针运算来找到`struct sdshdr`的地址（具体如何计算的请阅读下一点），从而实现访问`len`和`free`属性。
 - 特别注意`struct sdshdr`中的`buf`属性，其是长度不确定的`char`数组（柔性数组，动态数组），而非`char*`类型，对`struct sdshdr`求`sizeof`大小的话，会发现无论`buf`数组为多大，其结果为常量，不会占用内存空间，通过`sds - sizeof(struct sdshdr)`表达式可以得到`struct sdshdr`的首地址。
 
-#### `SDS`与`C`字符串的异同点
+#### `sds`与`C`字符串的异同点
 
 相同点：
 
@@ -39,7 +39,7 @@ struct sdshdr {
 
 当删除`sds`中的字符时，其所占用的内存空间并未真正释放给操作系统，调整`len`和`free`属性的值，用`free`属性记录这些空间的内存空间，以备将来使用。
 
-#### `SDS` API
+#### `sds` API
 
 **创建`sds`相关API**
 
