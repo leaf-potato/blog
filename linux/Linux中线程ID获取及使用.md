@@ -13,21 +13,21 @@
 
 使用`pthread_create()`（函数原型如下）系统调用新建一个线程的时候，`pthread_create()`函数会修改形参`thread`指针指向的值，指向新建线程的线程ID，其类型为`pthread_t`。
 
-```c++
+```cpp
 #include<pthread.h>
 int pthread_create(pthread_t *thread,const pthread_attr_t *attr,void *(*start)(void *),void *arg);
 ```
 
 新建线程在后续运行中如果想要获取自身的线程ID，可以通过Pthread库提供的`pthread_self()`函数来返回。
 
-```c++
+```cpp
 #include<pthread.h>
 int pthread_self()
 ```
 
 **示例代码**
 
-```c++
+```cpp
 #include<iostream>
 //使用了pthread，在编译的时候需要连接pthread库
 //编译命令如下：
@@ -59,14 +59,14 @@ int main(int argc,char* argv[]){
 
 通过查看Linux系统中的man手册，可以得知`gettid()`相关头文件和函数原型如下：
 
-```c++
+```cpp
 #include<sys/types.h>
 pid_t gettid(void)
 ```
 
 但在实际的编程中会发现编译时会报错`gettid()`未声明和定义，这是因为头文件中`sys/types.h`没有声明该函数同时 `glibc`中也没有实现。此时需要我们自己使用系统调用封装一个`gettid()`，函数的封装方式如下：
 
-```c++
+```cpp
 #include<syscall.h>
 #include<unistd.h>
 pid_t gettid(){
@@ -80,7 +80,7 @@ pid_t gettid(){
 - 当`glibc`中没有对某些系统调用进行包装时，可以很方便的使用`syscall()`函数自己进行封装（如上所示）。
 - 如果`glibc`中有对系统调用的封装，那么优先使用`glibc`中的系统调用而不建议使用`syscall()`来进行调用，尤其是需要传参的系统调用。`glibc`会以适合于架构的方式将参数复制到正确的寄存器，调用者无需关心这些的细节。但是当使用`syscall()`进行系统调用时，调用者可能需要处理与体系结构有关的详细信息（具体例子请查看man手册）。
 
-```c++
+```cpp
 #include<unistd.h>
 long syscall(long number,...);
 ```
@@ -89,7 +89,7 @@ long syscall(long number,...);
 
 在单线程的进程中，`getpid()`函数的值和`gettid()`的值是相同的。而在多线程中，所有线程的`getpid()`值都是相同的，每个线程有自己的`getpid()`值。需要注意的是，不管是单线程还是多线程环境下，主线程的`gettid()`的值始终和`getpid()`值相同，可以通过这种方式来判断当前线程是否为主线程。比如：
 
-```c++
+```cpp
 bool isMainThread(){
 	return gettid() == getpid();
 }
@@ -97,7 +97,7 @@ bool isMainThread(){
 
 **示例代码**
 
-```c++
+```cpp
 #include<iostream>
 #include<syscall.h>
 #include<unistd.h>
@@ -148,7 +148,7 @@ int main(int argc,char* argv[]){
 
 **示例代码**
 
-```c++
+```cpp
 #include<iostream>
 #include<syscall.h>
 #include<unistd.h>

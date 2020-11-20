@@ -19,7 +19,7 @@
   - 早期的`C`语言编译器是没有对代码进行优化，短时间多次访问的变量依然从内存中读取，降低了程序运行速度，因此引入了`register`关键字来修饰变量将变量存储在寄存器中来优化变量的读取速度。寄存器中的变量是无法进行取地址的。
   - `C++`保留了`C`语言中的`register`关键字，但同时也进行了一些优化。`C++`允许对`register`关键字修饰的变量进行取地址操作，但对变量进行取地址之后`register`关键字将变得无效。
 
-  ```c++
+  ```cpp
   #include<iostream>
   using namespace std;
   int main(int argc,char* argv[]){
@@ -41,7 +41,7 @@
 
 将所有编译过程中发现的警告都当中编译错误来进行处理，在开发阶段`-Werror`会和`-Wall`，`-Wextra`选项一起使用发现代码存在的潜在问题。
 
-```c++
+```cpp
 #include<iostream>
 using namespace std;
 int main(int argc,char* argv[]){
@@ -63,7 +63,7 @@ int main(int argc,char* argv[]){
 
 在编译代码时如果同时使用`-Wall`和`-Wextra`（更加具体的是`-Wunused`和`-Wunused-parameter`）编译选项，那么出现未使用的函数形参将发出`-Wunused-parameter`警告，但此警告无关痛痒，有时并不想关心，可以使用`-Wno-unused-parameter`编译选项将此警告关闭。
 
-```c++
+```cpp
 #include<iostream>
 using namespace std;
 int main(int argc,char* argv[]){
@@ -94,7 +94,7 @@ int main(int argc,char* argv[]){
 
 在`C++`程序中使用`C`语言风格的类型转换方式（除了转换为`void`类型）将发出警告，应使用`C++`提供的`dynamic_cast`，`static_cast`，`reinterpret_cast`和`const_cast`这四种类型转换替换`C`语言中的类型转换方式，这会降低代码出现未定义行为的可能性。
 
-```c++
+```cpp
 #include<iostream>
 using namespace std;
 int main(int argc,char* argv[]){
@@ -108,7 +108,7 @@ int main(int argc,char* argv[]){
 
 如上所示，代码中使用`C`语言风格的类型转化方式，即使有`-Wold-style-cast`警告但仍编译成功，但如果使用`static_cast`进行类型转换将报错，无法编译成功。
 
-```c++
+```cpp
 #include<iostream>
 using namespace std;
 int main(int argc,char* argv[]){
@@ -138,7 +138,7 @@ int main(int argc,char* argv[]){
 
 所以`-Woverloaded-virtual`警告是为了避免基类的虚函数被子类的函数隐藏，从而失去多态的特性。此种情况在代码的维护阶段出现的可能性较大，为了在代码原有的基础上添加新功能而修改了基类虚函数参数的个数，类型或者将虚函数修改为了`const`函数但未同步的修改子类中对应的虚函数，这样会使得使用了相应虚函数的多态特性代码出现功能上的偏差。（修改子类虚函数但未修改基类虚函数同理）
 
-```c++
+```cpp
 #include<iostream>
 using namespace std;
 class Base{
@@ -165,7 +165,7 @@ int main(int argc,char* argv[]){
 
 当用一个`char*`类型的指针指向一个字符串常量时，将会发出警告。在想明白为什么会发出这个警告之前，需要明白的是`C++`中的字符串常量是存储在静态存储区的且不能被修改的，当多个指针指向同一个字符串常量时，指针之间是共享同一块内存。
 
-```c++
+```cpp
 #include<iostream>
 using namespace std;
 void func(){
