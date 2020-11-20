@@ -1,14 +1,12 @@
-## g++命令使用教程
+## g++常用编译选项<!-- {docsify-ignore} -->
 
-#### 常用编译选项
-
-##### `-Wall`
+#### `Wall`
 
 该编译选项将让编译器打开常见（极容易出错并易改正的）的`warning flags`，给出代码编译过程中发现的警告。
 
 `-Wall`具体包含哪些`warning flags`可以通过Linux中的`man`在线手册进行查看。
 
-##### `-Wextra`
+#### `Wextra`
 
 编译器将打开没有被`-Wall`包括的其他`warning flags`，比如`-Wdeprecated-copy`警告。
 
@@ -37,7 +35,7 @@
 
    ![image-20201017213813975](.assets/image-20201017213813975.png)
 
-##### `-Werror`
+#### `Werror`
 
 将所有编译过程中发现的警告都当中编译错误来进行处理，在开发阶段`-Werror`会和`-Wall`，`-Wextra`选项一起使用发现代码存在的潜在问题。
 
@@ -59,7 +57,7 @@ int main(int argc,char* argv[]){
 
  ![image-20201018100905062](.assets/image-20201018100905062.png)
 
-##### `-Wno-unused-parameter`
+#### `Wno-unused-parameter`
 
 在编译代码时如果同时使用`-Wall`和`-Wextra`（更加具体的是`-Wunused`和`-Wunused-parameter`）编译选项，那么出现未使用的函数形参将发出`-Wunused-parameter`警告，但此警告无关痛痒，有时并不想关心，可以使用`-Wno-unused-parameter`编译选项将此警告关闭。
 
@@ -78,7 +76,7 @@ int main(int argc,char* argv[]){
 
  ![image-20201018100333197](.assets/image-20201018100333197.png)
 
-##### `-Wconversion`
+#### `Wconversion`
 
 在隐式转换中如果可能出现更改变量值的情况，将发出此警告。有如下几种情况：
 
@@ -86,11 +84,11 @@ int main(int argc,char* argv[]){
 - 无符号数和有符号数之间的转换。将有符号数赋值给无符号数。
 - 数据溢出的情况。两个`int`类型变量相加结果大于`int` 表示的最大范围但赋值给`int`类型的变量。
 
-##### `-Wpointer-arith`
+#### `Wpointer-arith`
 
 当使用函数指针和`void*`指针进行算术运算时，将发出此警告。
 
-##### `-Wold-style-cast`
+#### `Wold-style-cast`
 
 在`C++`程序中使用`C`语言风格的类型转换方式（除了转换为`void`类型）将发出警告，应使用`C++`提供的`dynamic_cast`，`static_cast`，`reinterpret_cast`和`const_cast`这四种类型转换替换`C`语言中的类型转换方式，这会降低代码出现未定义行为的可能性。
 
@@ -122,7 +120,7 @@ int main(int argc,char* argv[]){
 
 换言之，`C++`中的类型转换比`C`语言提供的类型转换方式更加智能安全，所以应该开启`-Wold-style-cast`警告选项来检测代码中使用了`C`语言类型转换的地方，并使用`C++`中相应的类型转换来进行替换。
 
-##### `-Woverloaded-virtual`
+#### `Woverloaded-virtual`
 
 当子类方法隐藏了基类的虚函数时将发出此警告。借此想先说明一下重载，重写（覆盖），隐藏的区别：
 
@@ -161,7 +159,7 @@ int main(int argc,char* argv[]){
 
  ![image-20201018161139614](.assets/image-20201018161139614.png)
 
-##### `Wwrite-strings`
+#### `Wwrite-strings`
 
 当用一个`char*`类型的指针指向一个字符串常量时，将会发出警告。在想明白为什么会发出这个警告之前，需要明白的是`C++`中的字符串常量是存储在静态存储区的且不能被修改的，当多个指针指向同一个字符串常量时，指针之间是共享同一块内存。
 
@@ -180,17 +178,17 @@ int main(int argc,char* argv[]){
 }
 ```
 
-##### `-pthread`
+#### `pthread`
 
 链接线程库，Linux中线程库的实现是和`glibc`分开的。
 
-##### `-std=c++11`
+#### `std=c++11`
 
 以C++11标准来进行代码编译
 
 - `-Wshadow`：局部变量，类型声明覆盖其他变量，参数，类型，类成员变量，内置函数或者显式的`typedef`，将发出警告。
 
-#### 参考资料
+#### 参考资料<!-- {docsify-ignore} -->
 
 - [浅谈c/c++中register关键字](https://blog.csdn.net/m0_37717595/article/details/79615775)
 
