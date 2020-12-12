@@ -1,6 +1,4 @@
-## `sds`设计与实现
-
-#### `sds`的定义
+#### SDS的定义
 
 ```c
 typedef char *sds;//指向buf地址
@@ -14,13 +12,13 @@ struct sdshdr {
 - `sds`始终指向`struct sdshdr`中的`buf`数组，在使用过程中声明`sds`类型的变量即可，`struct sdshdr`对于用户来说是透明的，`sds`可以通过指针运算来找到`struct sdshdr`的地址（具体如何计算的请阅读下一点），从而实现访问`len`和`free`属性。
 - 特别注意`struct sdshdr`中的`buf`属性，其是长度不确定的`char`数组（柔性数组，动态数组），而非`char*`类型，对`struct sdshdr`求`sizeof`大小的话，会发现无论`buf`数组为多大，其结果为常量，不会占用内存空间，通过`sds - sizeof(struct sdshdr)`表达式可以得到`struct sdshdr`的首地址。
 
-#### `sds`与`C`字符串的异同点
+#### SDS与C字符串的异同点
 
-相同点：
+##### 相同点：
 
 - `sds`遵循`C`语言普通字符串风格，字符串总是会以`\0`字符结尾，但其并不计算在`len`属性中，这样既可以复用`C`语言中原有的字符串操作，同时不影响`sds`特有的功能。
 
-不同点：
+##### 不同点：
 
 - `C`语言字符串需要调用`strlen()`函数遍历整个字符串，`sds`以空间换取时间，获取长度的只需要访问`len`即可，时间复杂度更低。
 - `C`语言字符串在使用`strcat()`函数进行拼接操作之前需要手动分配足够的内存空间，否则可能会造成缓冲区溢出。`sds`的`sdscat()`封装了检测内存空间是否足够，自动分配内存等操作，预防了缓冲区溢出。这些操作对于用户来说都是透明的，用户只管调用`sdscat()`即可，无需手动管理内存。
@@ -39,9 +37,9 @@ struct sdshdr {
 
 当删除`sds`中的字符时，其所占用的内存空间并未真正释放给操作系统，调整`len`和`free`属性的值，用`free`属性记录这些空间的内存空间，以备将来使用。
 
-#### `sds` API
+#### SDS API
 
-##### 创建`sds`相关API
+##### 创建SDS相关API
 
 ```c
 //创建一个长度为initlen的sds
@@ -58,14 +56,14 @@ sds sdsempty(void);
 sds sdsfromlonglong(long long value);
 ```
 
-##### 销毁sds相关API
+##### 销毁SDS相关API
 
 ```c
 //释放一个给定的sds
 void sdsfree(sds s);
 ```
 
-##### `sds`内存相关API
+##### SDS内存相关API
 
 ```c
 //内存预分配，扩展sds的长度，确保sds的free空间大于addlen
@@ -81,7 +79,7 @@ sds sdsRemoveFreeSpace(sds s);
 size_t sdsAllocSize(sds s)
 ```
 
-##### `sds`拼接相关API
+##### SDS拼接相关API
 
 ```c
 //将t指向的长度为len的字符串追加到sds中
@@ -93,7 +91,7 @@ sds sdscat(sds s, const char *t);
 sds sdscatsds(sds s, const sds t);
 ```
 
-##### `sds`复制相关API
+##### SDS复制相关API
 
 ```c
 //将t指向的长度为len的字符串复制到sds中，覆盖原来的sds
